@@ -81,7 +81,6 @@ class Monad<T> {
     }
 
     public <R> Monad<R> map(Function<T, R> mapper) {
-        return content == null ? Monad.ofNullable(null) :
-                Monad.ofNullable(mapper.apply(content));
+        return Monad.ofNullable(mapper.apply(content));
     }
 }
