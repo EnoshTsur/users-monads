@@ -60,16 +60,11 @@ class UsersTests {
 
     }
 
-}
-
-
-class Test2 {
-
-    public static void main(String[] args) {
-
+    @Test
+    void match(){
         String a = Match("koby").of(
                 Case($("dsf"), ""),
-//                Case($(is( "koby")), "hahah"),
+                Case($(is( "koby")), "hahah"),
                 Case($(x -> x.contains("s")), "asda"),
                 Case($(isIn("koby", "f", "f2")), "sadasd"),
                 Case($(isNull()), "noooo!!"),
@@ -78,5 +73,4 @@ class Test2 {
 
         System.out.println(a);
     }
-
 }
