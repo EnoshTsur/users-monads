@@ -1,5 +1,6 @@
 package com.enosh.users.service;
 
+import com.enosh.users.exceptions.NotExistException;
 import com.enosh.users.model.User;
 import com.enosh.users.repository.UserRepository;
 import com.enosh.users.utils.LogUtils;
@@ -37,7 +38,9 @@ public class UserService implements JpaService<User, Long> {
 
     @Override
     public Either<Throwable, User> update(Function1<User, User> mapper, Long id) {
-        return null;
+        return findById(id)
+                .map()
+                .orElseGet(() -> new NotExistException(""))
     }
 
     @Override
