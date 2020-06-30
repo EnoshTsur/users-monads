@@ -43,22 +43,22 @@ public interface JpaService<T extends BaseEntity, ID> {
 
     default Function<T, Either<Throwable, T>> tryToUpdate(JpaRepository<T, ID> repository, Function<T, T> mapper) {
         return entity -> {
-            Try<T> tryToUpdate = Try.of(() -> mapper.andThen(repository::save).apply(entity));
-            tryToUpdate.onSuccess(LogUtils::printSuccess);
-            tryToUpdate.onFailure(LogUtils::printError);
-            return tryToUpdate.toEither();
+            Try<T> tryAction = Try.of(() -> mapper.andThen(repository::save).apply(entity));
+            tryAction.onSuccess(LogUtils::printSuccess);
+            tryAction.onFailure(LogUtils::printError);
+            return tryAction.toEither();
         };
     }
 
     default Function<T, Either<Throwable, T>> tryToDelete(JpaRepository<T, ID> repository) {
         return entity -> {
-            Try<T> tryToDelete = Try.of(() -> {
+            Try<T> tryAction = Try.of(() -> {
                 repository.delete(entity);
                 return entity;
             });
-            tryToDelete.onSuccess(LogUtils::printSuccess);
-            tryToDelete.onFailure(LogUtils::printError);
-            return tryToDelete.toEither();
+            tryAction.onSuccess(LogUtils::printSuccess);
+            tryAction.onFailure(LogUtils::printError);
+            return tryAction.toEither();
         };
     }
 
