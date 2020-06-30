@@ -60,7 +60,24 @@ public class UserService implements JpaService<User, Long> {
 
     @Override
     public Either<Throwable, User> deleteById(Long id) {
-        return null;
+        return findById(id)
+                .map(user -> {
+                    Try<User> tryToDelete = Try.of(() -> {
+                        repository.deleteById(id);
+                        return user;
+                    });
+                    tryToDelete.onSuccess(LogUtils::printSuccess);
+                    tryToDelete.onFailure(LogUtils::printError);
+                    return tryToDelete.toEither();
+                })
+                .orElseGet(() -> {
+                    NotExistException exception = userDoesNotExists
+                            .andThen(NotExistException::new)
+                            .apply(id, "delete");
+
+                    LogUtils.printError(exception);
+                    return Either.left(exception);
+                });
     }
 
     @Override
