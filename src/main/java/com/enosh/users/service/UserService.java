@@ -38,9 +38,9 @@ public class UserService implements JpaService<User, Long> {
 
     @Override
     public Either<Throwable, User> update(Function1<User, User> mapper, Long id) {
-        return findById(id)
-                .map()
-                .orElseGet(() -> new NotExistException("User by the id " + id + " does not exists in order to update"))
+        return null; // findById(id)
+//                .map()
+//                .orElseGet(() -> new NotExistException("User by the id " + id + " does not exists in order to update"))
     }
 
     @Override
