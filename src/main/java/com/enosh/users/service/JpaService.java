@@ -7,6 +7,8 @@ import io.vavr.control.Either;
 import java.util.List;
 import java.util.Optional;
 
+// T ( User )
+// ID ( Long )
 public interface JpaService<T, ID> {
 
     Optional<T> findById(ID id);
@@ -18,8 +20,6 @@ public interface JpaService<T, ID> {
     Either<Throwable, T> deleteById(ID id);
 
     List<T> findAll();
-
-
 
 
 }

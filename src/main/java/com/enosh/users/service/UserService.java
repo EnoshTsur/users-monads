@@ -2,6 +2,7 @@ package com.enosh.users.service;
 
 import com.enosh.users.model.User;
 import com.enosh.users.repository.UserRepository;
+import com.enosh.users.utils.LogUtils;
 import io.vavr.Function1;
 import io.vavr.control.Either;
 import io.vavr.control.Try;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
+import static com.enosh.users.utils.LogUtils.*;
 
 @AllArgsConstructor
 @Slf4j
@@ -27,9 +30,9 @@ public class UserService implements JpaService<User, Long> {
     @Override
     public Either<Throwable, User> save(User user) {
         Try<User> saveUser = Try.of(() -> repository.save(user));
-        saveUser.onFailure(throwable -> log.error("Error: {}", throwable.getMessage()));
-        saveUser.onSuccess(afterSave -> log.info("Success: {}", afterSave));
-        return  saveUser.toEither();
+        saveUser.onSuccess(LogUtils::printSuccess);
+        saveUser.onFailure(LogUtils::printError);
+        return saveUser.toEither();
     }
 
     @Override
@@ -47,3 +50,6 @@ public class UserService implements JpaService<User, Long> {
         return null;
     }
 }
+
+
+
