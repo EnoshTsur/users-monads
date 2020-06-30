@@ -10,7 +10,7 @@ import java.util.function.Supplier;
 
 public interface MessageUtils {
 
-    // type ( User ) id ( Long )
+    // type ( extends BaseEntity ) id ( Long )
     // -> operation ( String )
     // -> String result
 
@@ -24,18 +24,6 @@ public interface MessageUtils {
     }
 
     Function2<Long, String, String> userDoesNotExists = doesNotExists(User.class);
-
-    public static void main(String[] args) {
-        Function2<Long, String, String> userDoesNotExists = doesNotExists(User.class);
-
-        System.out.println(
-                userDoesNotExists.apply(4L, "delete")
-        );
-
-        System.out.println(
-                userDoesNotExists.apply(3L, "update")
-        );
-    }
 }
 
 

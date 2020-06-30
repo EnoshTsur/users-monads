@@ -33,31 +33,6 @@ class UsersTests {
 
     @Test
     void saveUser() {
-        Either<Throwable, User> saveEither = userService.save(
-                new User("Yoav", "Efrati", 32)
-        );
-
-        System.out.println(
-                ResponseUtils.createResponse(saveEither)
-        );
-
-//        Dto dto = Match(saveEither).of(
-//
-//                Case($(Either::isRight), new Dto<>(
-//                        true,
-//                        now(),
-//                        saveEither.right()
-//                )),
-//
-//                Case($(Either::isLeft), new Dto<>(
-//                        false,
-//                        now(),
-//                        saveEither.left().map(Throwable::getMessage)
-//                ))
-//        );
-//
-//        System.out.println(dto);
-
     }
 
     @Test
