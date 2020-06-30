@@ -15,11 +15,12 @@ public interface ResponseUtils {
 
     static <T> ResponseEntity<Dto> createResponse(Either<Throwable, T> either) {
                return Match(either).of(
-                        Case($(Either::isRight),  ResponseEntity.ok(new Dto<>(true, now(), either.right()))),
-
-                        Case($(Either::isLeft), ResponseEntity
-                                .status(HttpStatus.BAD_REQUEST)
-                                .body(new Dto<>(false, now(), either.left().map(Throwable::getMessage))))
+                        Case($(Either::isRight),  ResponseEntity.ok(
+                                new Dto<>(true, now(), either.right())
+                        )),
+                        Case($(Either::isLeft), ResponseEntity.ok(
+                                new Dto<>(false, now(), either.left().map(Throwable::getMessage))
+                        ))
                 );
     }
 }
