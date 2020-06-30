@@ -11,7 +11,7 @@ public class LogUtils {
     }
 
     public static void printError(Throwable throwable) {
-        log.info("Error: {}", throwable.getMessage());
+        log.error("Error: {}", throwable.getMessage());
     }
 
 //    public static  <T> void tryOnSuccessAndFailure(Try<T> tryOf) {

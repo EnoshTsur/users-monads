@@ -32,7 +32,23 @@ class UsersTests {
     }
 
     @Test
-    void saveUser() {
+    void updateUser() {
+       Either<Throwable, User> either = userService.update(user -> {
+            user.setAge(900);
+            user.setLastName(null);
+            return user;
+        },30L );
+
+
+       if (either.isLeft()) {
+           either.left()
+                   .map(Throwable::getMessage)
+                   .forEach(message -> System.out.println("errorMsg: " + message));
+       } else {
+           either.right()
+                   .forEach(user -> System.out.println("user: " + user));
+       }
+
     }
 
     @Test

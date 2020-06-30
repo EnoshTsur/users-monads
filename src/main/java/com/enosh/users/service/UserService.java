@@ -49,7 +49,10 @@ public class UserService implements JpaService<User, Long> {
                     return tryToUpdate.toEither();
                 })
                 .orElseGet(() ->  {
-                    NotExistException exception = new NotExistException(userDoesNotExists.apply(id, "update"));
+                    NotExistException exception = userDoesNotExists
+                            .andThen(NotExistException::new)
+                            .apply(id, "update");
+
                     LogUtils.printError(exception);
                     return Either.left(exception);
                 });
