@@ -35,9 +35,9 @@ class UsersTests {
     void updateUser() {
        Either<Throwable, User> either = userService.update(user -> {
             user.setAge(900);
-            user.setLastName(null);
+            user.setLastName("hjhj");
             return user;
-        },30L );
+        },390L );
 
 
        if (either.isLeft()) {
@@ -48,7 +48,20 @@ class UsersTests {
            either.right()
                    .forEach(user -> System.out.println("user: " + user));
        }
+    }
 
+    @Test
+    void deleteUser(){
+        Either<Throwable, User> either = userService.deleteById(389L);
+
+        if (either.isLeft()) {
+            either.left()
+                    .map(Throwable::getMessage)
+                    .forEach(message -> System.out.println("errorMsg " + message));
+        } else {
+            either.right()
+                    .forEach(user -> System.out.println("user: " + user));
+        }
     }
 
     // touch

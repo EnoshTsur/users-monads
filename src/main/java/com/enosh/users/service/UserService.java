@@ -4,7 +4,6 @@ import com.enosh.users.exceptions.NotExistException;
 import com.enosh.users.model.User;
 import com.enosh.users.repository.UserRepository;
 import com.enosh.users.utils.LogUtils;
-import com.enosh.users.utils.MessageUtils;
 import io.vavr.Function1;
 import io.vavr.control.Either;
 import io.vavr.control.Try;
@@ -38,51 +37,23 @@ public class UserService implements JpaService<User, Long> {
         return saveUser.toEither();
     }
 
-
     @Override
     public Either<Throwable, User> update(Function1<User, User> mapper, Long id) {
         return findById(id)
-                .map(user -> {
-                    Try<User> tryToUpdate = Try.of(() -> mapper.andThen(repository::save).apply(user));
-                    tryToUpdate.onSuccess(LogUtils::printSuccess);
-                    tryToUpdate.onFailure(LogUtils::printError);
-                    return tryToUpdate.toEither();
-                })
-                .orElseGet(() ->  {
-                    NotExistException exception = userDoesNotExists
-                            .andThen(NotExistException::new)
-                            .apply(id, "update");
-
-                    LogUtils.printError(exception);
-                    return Either.left(exception);
-                });
+                .map(tryToUpdate(repository, mapper))
+                .orElseGet(logAndEitherLeft(id, "update"));
     }
 
     @Override
     public Either<Throwable, User> deleteById(Long id) {
         return findById(id)
-                .map(user -> {
-                    Try<User> tryToDelete = Try.of(() -> {
-                        repository.deleteById(id);
-                        return user;
-                    });
-                    tryToDelete.onSuccess(LogUtils::printSuccess);
-                    tryToDelete.onFailure(LogUtils::printError);
-                    return tryToDelete.toEither();
-                })
-                .orElseGet(() -> {
-                    NotExistException exception = userDoesNotExists
-                            .andThen(NotExistException::new)
-                            .apply(id, "delete");
-
-                    LogUtils.printError(exception);
-                    return Either.left(exception);
-                });
+                .map(tryToDelete(repository))
+                .orElseGet(logAndEitherLeft(id, "delete"));
     }
 
     @Override
     public List<User> findAll() {
-        return null;
+        return repository.findAll();
     }
 }
 
