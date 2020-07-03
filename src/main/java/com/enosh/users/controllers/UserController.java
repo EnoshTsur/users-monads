@@ -1,24 +1,14 @@
 package com.enosh.users.controllers;
 
 import com.enosh.users.dto.Dto;
-import com.enosh.users.exceptions.NotExistException;
 import com.enosh.users.model.User;
-import com.enosh.users.response.ResponseUtils;
 import com.enosh.users.service.UserService;
-import com.enosh.users.utils.MessageUtils;
-import io.vavr.control.Either;
-import io.vavr.control.Try;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.Optional;
-
 import static com.enosh.users.response.ResponseUtils.*;
-import static com.enosh.users.utils.MessageUtils.*;
-import static java.time.LocalDateTime.*;
 
 @AllArgsConstructor
 @Slf4j
@@ -37,5 +27,25 @@ public class UserController {
     public ResponseEntity<Dto> add(@RequestBody User user) {
         return responseFromEither(userService.save(user));
     }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Dto> update(@RequestBody User user, @PathVariable("id") Long id) {
+        return responseFromEither(
+                userService.update(
+                        userService.updateFnameAndLname(
+                                user.getFirstName(),
+                                user.getLastName()
+                        ),
+                        id
+                )
+        );
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Dto> delete(@PathVariable("id") Long id) {
+        return responseFromEither(userService.deleteById(id));
+    }
+
+
 
 }

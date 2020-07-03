@@ -20,13 +20,14 @@ public interface ResponseUtils {
         return "No user by the id " + id;
     }
 
+
     static <T> ResponseEntity<Dto> responseFromEither(Either<Throwable, T> either) {
                return Match(either).of(
                         Case($(Either::isRight),  ResponseEntity.ok(
-                                new Dto<>(true, now(), either.right().get())
+                                new Dto<>(true, now(), either.right().getOrNull())
                         )),
                         Case($(Either::isLeft), ResponseEntity.ok(
-                                new Dto<>(false, now(), either.left().map(Throwable::getMessage))
+                                new Dto<>(false, now(), either.left().map(Throwable::getMessage).getOrNull())
                         ))
                 );
     }

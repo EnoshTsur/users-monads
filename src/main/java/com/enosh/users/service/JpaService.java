@@ -63,4 +63,5 @@ public interface JpaService<T extends BaseEntity, ID> {
     }
 
 
+
 }

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 import static com.enosh.users.utils.LogUtils.*;
 import static com.enosh.users.utils.MessageUtils.*;
@@ -54,6 +55,14 @@ public class UserService implements JpaService<User, Long> {
     @Override
     public List<User> findAll() {
         return repository.findAll();
+    }
+
+    public Function1<User, User> updateFnameAndLname(String firstName, String lastName){
+        return user -> {
+            user.setFirstName(firstName);
+            user.setLastName(lastName);
+            return user;
+        };
     }
 }
 
