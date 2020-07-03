@@ -10,6 +10,8 @@ import io.vavr.control.Try;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +23,7 @@ import static com.enosh.users.remote.JsonUtils.*;
 import static com.enosh.users.response.ResponseUtils.*;
 import static java.time.LocalDateTime.*;
 
+@CrossOrigin(origins = "*")
 @AllArgsConstructor
 @Slf4j
 @RestController
