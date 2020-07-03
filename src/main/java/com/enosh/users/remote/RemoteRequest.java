@@ -11,7 +11,8 @@ public class RemoteRequest {
 
     private final RestTemplate restTemplate;
 
-    public JSONObject get(String url) {
-        return new JSONObject(restTemplate.getForObject(url, String.class));
+    public JSONObject get(final String URL) {
+        // JSONObject ( "{ "name": "koby", "friends": [ ] }" )
+        return new JSONObject(restTemplate.getForObject(URL, String.class));
     }
 }

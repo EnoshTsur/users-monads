@@ -7,6 +7,8 @@ import lombok.ToString;
 
 import java.time.LocalDateTime;
 
+// Data Transfer Object
+
 @Getter
 @Setter
 @ToString
